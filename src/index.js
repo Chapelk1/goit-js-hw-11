@@ -20,25 +20,28 @@ async function onSubmitForm(e) {
   clearGallery();
   hidden(refs.btnMore);
   basicDataValues();
-  dataStorage.request = e.currentTarget.elements.searchQuery.value;
+  const request = e.currentTarget.elements.searchQuery.value;
+  if (request) {
+    dataStorage.request = request;
 
-  const { arrayOfPhoto, lengthArray, totalHits } = await fetchApiServer();
+    const { arrayOfPhoto, lengthArray, totalHits } = await fetchApiServer();
 
-  if (lengthArray === 0) {
-    Notiflix.Notify.failure(
-      `❌ Sorry, there are no images matching your search query. Please try again.`
-    );
-    return;
+    if (lengthArray === 0) {
+      Notiflix.Notify.failure(
+        `❌ Sorry, there are no images matching your search query. Please try again.`
+      );
+      return;
+    }
+    updateDataValues(lengthArray);
+    contentFilling(arrayOfPhoto);
+    Notiflix.Notify.success(`✅ Hooray! We found ${totalHits} images.`);
+    lightbox.refresh();
+    scrollTop();
+    if (totalHits !== dataStorage.number) {
+      rmHidden(refs.btnMore);
+    }
+    rmHidden(refs.btnUp);
   }
-  updateDataValues(lengthArray);
-  contentFilling(arrayOfPhoto);
-  Notiflix.Notify.success(`✅ Hooray! We found ${totalHits} images.`);
-  lightbox.refresh();
-  scrollTop();
-  if (totalHits !== dataStorage.number) {
-    rmHidden(refs.btnMore);
-  }
-  rmHidden(refs.btnUp);
 }
 
 refs.btnMore.addEventListener('click', onClickBtnMore);
