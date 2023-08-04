@@ -36,7 +36,7 @@ async function onSubmitForm(e) {
     contentFilling(arrayOfPhoto);
     Notiflix.Notify.success(`✅ Hooray! We found ${totalHits} images.`);
     lightbox.refresh();
-    scrollTop();
+    scrollTop(0.2);
     if (totalHits !== dataStorage.number) {
       rmHidden(refs.btnMore);
     }
@@ -55,7 +55,7 @@ async function onClickBtnMore() {
   contentFilling(arrayOfPhoto);
   Notiflix.Notify.success(`✅ Loaded 40 more images.`);
   lightbox.refresh();
-  scrollTop();
+  scrollTop(2);
   if (totalHits !== dataStorage.number && dataStorage.number < totalHits) {
       rmHidden(refs.btnMore);
       rmHidden(refs.btnUp);
@@ -142,12 +142,12 @@ function addGalleryCards(response) {
     .join('');
 }
 
-function scrollTop() {
+function scrollTop(el) {
   const { height: cardHeight } =
     refs.gallery.firstElementChild.getBoundingClientRect();
 
   window.scrollBy({
-    top: cardHeight * 2,
+    top: cardHeight * el,
     behavior: 'smooth',
   });
 }
