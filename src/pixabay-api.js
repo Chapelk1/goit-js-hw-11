@@ -8,7 +8,7 @@ export function requestToTheServer(request,value) {
         key: BASE_KEY,
         image_type: 'photo',
         orientation: 'horizontal',
-        safesearch: false,
+        safesearch: true,
         page: value,
         per_page: 40,
         q: request,
